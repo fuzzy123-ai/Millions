@@ -89,6 +89,23 @@ flow-field/collision movement tick, and verifies that the local AOI delta
 contains visible entities whose server positions changed from baseline. It does
 not prove live packet transport or client prediction.
 
+When changing collision movement-probe fallback behavior or axis-slide wording,
+also run:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts\run_collision_axis_slide_smoke.ps1
+```
+
+Expected final line:
+
+```text
+collision_axis_slide_smoke status=ok direct_blocked=1 slide_min=1 budget_result=blocked
+```
+
+This smoke proves the opt-in axis-slide probe can turn a blocked direct movement
+candidate into a deterministic single-axis candidate while keeping default
+swarm movement, final avoidance, and formal budget claims blocked.
+
 ## Debug Trigger Thresholds
 
 Use these thresholds for future debug overlays and local smoke assertions:
@@ -104,6 +121,7 @@ Use these thresholds for future debug overlays and local smoke assertions:
 | `swarm_collision_physics_step` | applied local corrections > 0 | Show local CollisionWorld physics diagnostic only. |
 | `swarm_collision_resolved_admission` | resolved admission checks > 0 | Show local candidate-resolution diagnostic only. |
 | `swarm_collision_movement_probe` | movement probe corrected or blocked > 0 | Show local candidate movement decision diagnostic only. |
+| `swarm_collision_axis_slide_probe` | accepted axis-slide candidates > 0 | Show opt-in local slide-probe diagnostic only. |
 | `swarm_movement_preview_flow_field` | movement preview flow-field queries > 0 | Show local intent-to-flow candidate diagnostic only. |
 | `swarm_movement_preview_physics` | movement preview physics corrections > 0 | Show local cloned-world physics diagnostic only. |
 | `swarm_movement_preview_blocked` | movement preview blocked deltas > 0 | Show local preview blockage diagnostic only. |
@@ -128,6 +146,8 @@ Use these thresholds for future debug overlays and local smoke assertions:
   `powershell -ExecutionPolicy Bypass -File scripts\run_swarm_batch_vs_single_promotion_check.ps1`.
 - Batch movement replication smoke:
   `powershell -ExecutionPolicy Bypass -File scripts\run_swarm_batch_movement_replication_smoke.ps1`.
+- Collision axis-slide smoke:
+  `powershell -ExecutionPolicy Bypass -File scripts\run_collision_axis_slide_smoke.ps1`.
 - Godot focused check:
   `client/godot/scripts/tests/swarm_readability_stress_check.gd`.
 - Report artifact: `tests/perf/swarm-load-smoke-report.json`.
@@ -141,10 +161,16 @@ Use these thresholds for future debug overlays and local smoke assertions:
   movement.
 - Resolved admission evidence: the swarm load smoke and collision physics smoke
   must include bounded candidate admission checks under pressure, but must not
-  claim alternate path selection, sliding, or authoritative movement.
+  claim alternate path selection or authoritative movement.
 - Movement-probe evidence: the swarm load smoke must include bounded
   movement/collision probe decisions, but must not apply their resolved deltas to
   authoritative state.
+- Axis-slide evidence: the dedicated collision axis-slide smoke must include a
+  blocked direct movement candidate, at least one accepted deterministic
+  single-axis slide candidate, a direct-accepted case with no slide attempts,
+  and clamp-policy propagation into slide attempts. This proves only the opt-in
+  fallback probe; default swarm movement, full pathfinding, and final avoidance
+  remain separate gates.
 - Batch movement-probe evidence: the swarm load smoke must include bounded
   simultaneous candidate probes for the movement-preview sample set, with no
   unknown bodies, at least one local resolution iteration, and positive
@@ -233,14 +259,16 @@ Record No-Go rather than expanding scope when:
 
 - Godot decides swarm behavior or collision authority,
 - collision contacts are treated as movement resolution,
-- collision admission rejects are treated as pushback, sliding, or alternate
-  path selection,
+- collision admission rejects are treated as pushback or alternate path
+  selection without an explicit movement/collision slice,
 - collision resolution plans are applied to authoritative movement without a new
   movement/collision slice,
 - local CollisionWorld physics steps are treated as gameplay movement,
   snapshot truth, or Godot physics,
 - resolved-admission candidate positions are treated as selected paths,
-  pushback, sliding, or authoritative snapshot truth,
+  pushback, or authoritative snapshot truth,
+- opt-in axis-slide probe evidence is treated as default swarm movement, full
+  pathfinding, final avoidance, live transport, or release readiness,
 - movement-apply or configured movement-tick evidence is treated as
   unconditional tick-loop movement, snapshot truth, or final horde pathfinding,
 - movement-preview deltas are treated as committed horde movement, pathfinding,

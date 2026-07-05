@@ -94,6 +94,12 @@ swarm load smokes use this resolved-admission surface through
 authoritative entity positions unchanged. It does not choose alternate paths,
 slide against obstacles, move authoritative entities, emit snapshots, or apply
 gameplay pushback.
+`CollisionWorld::probe_movement_with_axis_slide_after_resolution` is a separate
+opt-in probe for blocked movement candidates. It first runs the normal movement
+probe, then tries deterministic single-axis slide candidates from the requested
+delta when the direct move remains blocked. It reports the selected slide axis
+and attempts, but it does not change the default movement probe, mutate swarm
+state, provide full pathfinding, or claim final avoidance.
 
 `CollisionWorld::probe_batch_movements_after_resolution` extends that diagnostic
 to a bounded set of simultaneous movement candidates. It clones the local

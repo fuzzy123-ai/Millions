@@ -168,6 +168,12 @@ The movement-probe follow-up wraps resolved admission into a reusable
 `Accepted`/`Corrected`/`Blocked`/`UnknownBody` decision. Flow-field and swarm
 smokes use those decisions for local candidate evidence only; no authoritative
 positions or snapshots are mutated by the probe.
+`CollisionWorld::probe_movement_with_axis_slide_after_resolution` adds an
+opt-in fallback probe for blocked candidates. It retries deterministic
+single-axis targets derived from the requested movement delta and reports the
+selected axis plus attempts. This is a local slide-probe primitive only; default
+swarm movement, full pathfinding, final avoidance, live transport, and release
+readiness remain separate gates.
 `CollisionWorld::probe_batch_movements_after_resolution` now applies the same
 diagnostic shape to a bounded set of simultaneous movement candidates, recording
 accepted/corrected/blocked/unknown counts and aggregate correction distances for

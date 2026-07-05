@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "slice": "GSWARM-14",
+  "scenario_id": "collision_axis_slide_probe",
+  "status": "informational",
+  "budget_result": "blocked",
+  "claim_scope": "axis_slide_probe_only",
+  "direct_blocked_case_count": 1,
+  "axis_slide_attempt_count_min": 1,
+  "axis_slide_accepted_count_min": 1,
+  "direct_accepted_no_attempt_count": 1,
+  "clamped_slide_attempt_count_min": 1,
+  "clamped_correction_limit_abs_mm": 50,
+  "required_rust_check": "cargo test collision_axis_slide",
+  "non_claims": [
+    "not_default_swarm_movement",
+    "not_final_avoidance",
+    "not_full_pathfinding",
+    "not_live_transport",
+    "not_formal_p95_budget",
+    "not_release_candidate"
+  ]
+}

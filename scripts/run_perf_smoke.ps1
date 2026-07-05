@@ -5,6 +5,16 @@ Get-Content tests\perf\sample-perf-report-row.json -Raw | ConvertFrom-Json | Out
 Get-Content tests\perf\performance-history-ledger.schema.json -Raw | ConvertFrom-Json | Out-Null
 Get-Content tests\perf\perf-history-swarm-row-sample.json -Raw | ConvertFrom-Json | Out-Null
 Get-Content tests\perf\perf-history-swarm-batch-vs-single-row-sample.json -Raw | ConvertFrom-Json | Out-Null
+$collisionAxisSlide = Get-Content tests\perf\collision-axis-slide-smoke-report.json -Raw | ConvertFrom-Json
+if ($collisionAxisSlide.slice -ne "GSWARM-14") {
+    throw "Collision axis-slide report slice mismatch: $($collisionAxisSlide.slice)"
+}
+if ($collisionAxisSlide.status -ne "informational" -or $collisionAxisSlide.budget_result -ne "blocked") {
+    throw "Collision axis-slide report must remain informational/blocked until final movement and formal budgets exist."
+}
+if ([int]$collisionAxisSlide.axis_slide_accepted_count_min -lt 1) {
+    throw "Collision axis-slide report must require an accepted axis-slide candidate."
+}
 $swarmBatchReplication = Get-Content tests\perf\swarm-batch-movement-replication-smoke-report.json -Raw | ConvertFrom-Json
 if ($swarmBatchReplication.slice -ne "GSWARM-13") {
     throw "Swarm batch movement replication report slice mismatch: $($swarmBatchReplication.slice)"

@@ -339,6 +339,8 @@ Collision physics artifacts:
 - `server/src/collision.rs`
 - `scripts/run_collision_physics_perf_smoke.ps1`
 - `tests/perf/collision-physics-smoke-report.json`
+- `scripts/run_collision_axis_slide_smoke.ps1`
+- `tests/perf/collision-axis-slide-smoke-report.json`
 
 The collision physics smoke runs deterministic clustered 1,000-body and
 5,000-body `CollisionWorld` scenarios through broadphase contact detection and
@@ -356,6 +358,13 @@ The report remains informational and blocked because it does not measure p95 or
 p99 server tick time, compare against a formal collision budget, integrate
 gameplay-authoritative movement, validate Godot physics, or close release
 readiness.
+
+GSWARM-14 adds the collision axis-slide smoke for the opt-in movement fallback
+probe. It requires a blocked direct movement candidate, an accepted
+single-axis slide candidate, a direct-accepted no-slide case, and correction
+limit propagation into slide attempts. It remains informational and blocked
+because it is not default swarm movement, full pathfinding, final avoidance,
+live transport, a formal p95 budget, or release evidence.
 
 ## Faction Scale Scenario Catalog
 

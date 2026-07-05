@@ -90,6 +90,31 @@ pub enum CollisionMovementDecision {
     UnknownBody,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum CollisionSlideAxis {
+    X,
+    Y,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct CollisionSlideAttempt {
+    pub axis: CollisionSlideAxis,
+    pub probe: CollisionMovementProbe,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct CollisionMovementSlideProbe {
+    pub entity_id: EntityId,
+    pub requested_probe: CollisionMovementProbe,
+    pub decision: CollisionMovementDecision,
+    pub selected_axis: Option<CollisionSlideAxis>,
+    pub selected_position: Option<WorldPosition>,
+    pub selected_delta: Option<MovementDelta>,
+    pub attempt_count: usize,
+    pub attempts: Vec<CollisionSlideAttempt>,
+    pub claim_scope: &'static str,
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct CollisionMovementProbe {
     pub entity_id: EntityId,
@@ -664,6 +689,100 @@ impl CollisionWorld {
             clamped_correction_count: admission.clamped_correction_count,
             final_contact_count: admission.final_contact_count,
             claim_scope: "movement_probe_only",
+        }
+    }
+
+    pub fn probe_movement_with_axis_slide_after_resolution(
+        &self,
+        entity_id: EntityId,
+        target_position: WorldPosition,
+        max_iterations: usize,
+    ) -> CollisionMovementSlideProbe {
+        self.probe_movement_with_axis_slide_after_resolution_with_optional_limit(
+            entity_id,
+            target_position,
+            max_iterations,
+            None,
+        )
+    }
+
+    pub fn probe_movement_with_axis_slide_after_resolution_with_correction_limit(
+        &self,
+        entity_id: EntityId,
+        target_position: WorldPosition,
+        max_iterations: usize,
+        correction_limit_abs_mm: u32,
+    ) -> CollisionMovementSlideProbe {
+        self.probe_movement_with_axis_slide_after_resolution_with_optional_limit(
+            entity_id,
+            target_position,
+            max_iterations,
+            Some(correction_limit_abs_mm),
+        )
+    }
+
+    fn probe_movement_with_axis_slide_after_resolution_with_optional_limit(
+        &self,
+        entity_id: EntityId,
+        target_position: WorldPosition,
+        max_iterations: usize,
+        correction_limit_abs_mm: Option<u32>,
+    ) -> CollisionMovementSlideProbe {
+        let requested_probe = self.probe_movement_after_resolution_with_optional_limit(
+            entity_id,
+            target_position,
+            max_iterations,
+            correction_limit_abs_mm,
+        );
+        let mut decision = requested_probe.decision;
+        let mut selected_axis = None;
+        let mut selected_position = requested_probe.resolved_position;
+        let mut selected_delta = requested_probe.resolved_delta;
+        let mut attempts = Vec::new();
+
+        if requested_probe.decision == CollisionMovementDecision::Blocked {
+            if let (Some(from), Some(requested_delta)) =
+                (requested_probe.from, requested_probe.requested_delta)
+            {
+                for (axis, slide_target) in axis_slide_targets(from, requested_delta) {
+                    let probe = self.probe_movement_after_resolution_with_optional_limit(
+                        entity_id,
+                        slide_target,
+                        max_iterations,
+                        correction_limit_abs_mm,
+                    );
+                    let accepted = matches!(
+                        probe.decision,
+                        CollisionMovementDecision::Accepted | CollisionMovementDecision::Corrected
+                    ) && probe
+                        .resolved_delta
+                        .is_some_and(|delta| delta.dx_mm != 0 || delta.dy_mm != 0);
+                    let attempt = CollisionSlideAttempt { axis, probe };
+
+                    if accepted {
+                        decision = attempt.probe.decision;
+                        selected_axis = Some(axis);
+                        selected_position = attempt.probe.resolved_position;
+                        selected_delta = attempt.probe.resolved_delta;
+                        attempts.push(attempt);
+                        break;
+                    }
+
+                    attempts.push(attempt);
+                }
+            }
+        }
+
+        CollisionMovementSlideProbe {
+            entity_id,
+            requested_probe,
+            decision,
+            selected_axis,
+            selected_position,
+            selected_delta,
+            attempt_count: attempts.len(),
+            attempts,
+            claim_scope: "axis_slide_probe_only",
         }
     }
 
@@ -1289,6 +1408,39 @@ fn movement_delta_between(from: WorldPosition, to: WorldPosition) -> MovementDel
     }
 }
 
+fn axis_slide_targets(
+    from: WorldPosition,
+    requested_delta: MovementDelta,
+) -> Vec<(CollisionSlideAxis, WorldPosition)> {
+    let primary_first =
+        if requested_delta.dx_mm.unsigned_abs() >= requested_delta.dy_mm.unsigned_abs() {
+            [CollisionSlideAxis::X, CollisionSlideAxis::Y]
+        } else {
+            [CollisionSlideAxis::Y, CollisionSlideAxis::X]
+        };
+    let mut targets = Vec::new();
+
+    for axis in primary_first {
+        let target = match axis {
+            CollisionSlideAxis::X if requested_delta.dx_mm != 0 => WorldPosition {
+                x_mm: from.x_mm.saturating_add(requested_delta.dx_mm),
+                y_mm: from.y_mm,
+            },
+            CollisionSlideAxis::Y if requested_delta.dy_mm != 0 => WorldPosition {
+                x_mm: from.x_mm,
+                y_mm: from.y_mm.saturating_add(requested_delta.dy_mm),
+            },
+            _ => continue,
+        };
+
+        if target != from && !targets.iter().any(|(_, existing)| *existing == target) {
+            targets.push((axis, target));
+        }
+    }
+
+    targets
+}
+
 fn saturating_i64_to_i32(value: i64) -> i32 {
     if value > i64::from(i32::MAX) {
         i32::MAX
@@ -1771,6 +1923,103 @@ mod tests {
         assert_eq!(probe.max_applied_correction_abs_mm, 50);
         assert_eq!(probe.correction_limit_abs_mm, Some(50));
         assert_eq!(probe.clamped_correction_count, 2);
+    }
+
+    #[test]
+    fn collision_axis_slide_probe_accepts_axis_candidate_when_direct_move_blocks() {
+        let world =
+            CollisionWorld::with_bodies(1_000, vec![body(1, 0, 0, 300), body(2, 800, 800, 300)])
+                .expect("valid world");
+
+        let probe = world.probe_movement_with_axis_slide_after_resolution(
+            EntityId(1),
+            WorldPosition {
+                x_mm: 800,
+                y_mm: 800,
+            },
+            0,
+        );
+
+        assert_eq!(probe.entity_id, EntityId(1));
+        assert_eq!(
+            probe.requested_probe.decision,
+            CollisionMovementDecision::Blocked
+        );
+        assert_eq!(probe.decision, CollisionMovementDecision::Accepted);
+        assert_eq!(probe.selected_axis, Some(CollisionSlideAxis::X));
+        assert_eq!(
+            probe.selected_position,
+            Some(WorldPosition { x_mm: 800, y_mm: 0 })
+        );
+        assert_eq!(
+            probe.selected_delta,
+            Some(MovementDelta {
+                dx_mm: 800,
+                dy_mm: 0
+            })
+        );
+        assert_eq!(probe.attempt_count, 1);
+        assert_eq!(probe.attempts[0].axis, CollisionSlideAxis::X);
+        assert_eq!(
+            probe.attempts[0].probe.requested_position,
+            WorldPosition { x_mm: 800, y_mm: 0 }
+        );
+        assert_eq!(probe.claim_scope, "axis_slide_probe_only");
+    }
+
+    #[test]
+    fn collision_axis_slide_probe_skips_attempts_when_direct_move_is_accepted() {
+        let world =
+            CollisionWorld::with_bodies(1_000, vec![body(1, 0, 0, 300), body(2, 2_000, 0, 300)])
+                .expect("valid world");
+
+        let probe = world.probe_movement_with_axis_slide_after_resolution(
+            EntityId(1),
+            WorldPosition { x_mm: 800, y_mm: 0 },
+            0,
+        );
+
+        assert_eq!(
+            probe.requested_probe.decision,
+            CollisionMovementDecision::Accepted
+        );
+        assert_eq!(probe.decision, CollisionMovementDecision::Accepted);
+        assert_eq!(probe.selected_axis, None);
+        assert_eq!(
+            probe.selected_position,
+            Some(WorldPosition { x_mm: 800, y_mm: 0 })
+        );
+        assert_eq!(probe.attempt_count, 0);
+        assert!(probe.attempts.is_empty());
+    }
+
+    #[test]
+    fn collision_axis_slide_probe_carries_correction_limit_into_slide_attempts() {
+        let world =
+            CollisionWorld::with_bodies(1_000, vec![body(1, 0, 0, 500), body(2, 800, 800, 500)])
+                .expect("valid world");
+
+        let probe = world.probe_movement_with_axis_slide_after_resolution_with_correction_limit(
+            EntityId(1),
+            WorldPosition {
+                x_mm: 800,
+                y_mm: 800,
+            },
+            1,
+            50,
+        );
+
+        assert_eq!(probe.requested_probe.correction_limit_abs_mm, Some(50));
+        assert_eq!(probe.decision, CollisionMovementDecision::Blocked);
+        assert_eq!(probe.attempt_count, 2);
+        assert!(probe
+            .attempts
+            .iter()
+            .all(|attempt| attempt.probe.correction_limit_abs_mm == Some(50)));
+        assert!(probe
+            .attempts
+            .iter()
+            .any(|attempt| attempt.probe.clamped_correction_count > 0));
     }
 
     #[test]
