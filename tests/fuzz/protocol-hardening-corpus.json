@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "slice": "HARDEN-02",
+  "mode": "local_deterministic_fuzz_seeds",
+  "claim_limit": "These seeds document local parser/property/fuzz coverage only. They do not expose a public server, call Steam, execute live networking, validate gameplay payloads, or claim release-candidate hardening.",
+  "seeds": [
+    {
+      "id": "truncated_header_range",
+      "mutation": "all packet lengths from 0 through 47 bytes",
+      "expected_action": "reject_no_state_mutation",
+      "expected_reason": "malformed_header"
+    },
+    {
+      "id": "unsupported_protocol_version",
+      "mutation": "protocol_version set to 99 on a valid fixture header",
+      "expected_action": "reject_no_state_mutation",
+      "expected_reason": "version_mismatch"
+    },
+    {
+      "id": "oversized_packet_disconnect",
+      "mutation": "valid fixture padded to 1201 bytes",
+      "expected_action": "disconnect",
+      "expected_reason": "packet_too_large"
+    },
+    {
+      "id": "oversized_command_batch",
+      "mutation": "client_command_batch payload_len set to 1100 and packet resized to match",
+      "expected_action": "reject_no_state_mutation",
+      "expected_reason": "client_command_batch_too_large"
+    },
+    {
+      "id": "single_byte_header_mutations",
+      "mutation": "flip each byte in the fixed 48-byte header of a valid fixture",
+      "expected_property": "decode never panics and never mutates authoritative state for reject or disconnect outcomes"
+    },
+    {
+      "id": "auth_and_replay_state_table",
+      "mutation": "local/mock auth and command freshness state table",
+      "expected_property": "missing/rejected auth and stale/replayed commands never mutate authoritative state"
+    }
+  ]
+}

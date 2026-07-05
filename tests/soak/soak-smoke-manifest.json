@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "slice": "SOAK-03",
+  "script": "scripts/run_soak_smoke.ps1",
+  "mode": "local_contract_smoke",
+  "runs_long_session": false,
+  "allows_live_steam": false,
+  "allows_public_network_mutation": false,
+  "checks": [
+    "tests/soak/soak-scenarios.schema.json parses",
+    "tests/soak/soak-scenarios.json parses and every scenario has required fields",
+    "cargo test soak_metrics",
+    "Godot headless soak_metrics_check unless -SkipGodot is set"
+  ],
+  "expected_final_line": "soak_smoke status=ok scenarios=4 live_gated=1 rust_metrics=ok godot_metrics=ok",
+  "claim_limit": "This smoke validates contracts and metric emitters only. It does not execute a long soak run or close stability, release, live Steam, gameplay, final render, or final ECS claims.",
+  "privacy": "No secrets, Steam tickets, private account data, provider tokens, raw live provider output, raw unapproved packet dumps, or private machine paths."
+}

@@ -1,0 +1,10 @@
+target/
+.godot/
+.import/
+*.log
+*.tmp
+*.cache
+client/godot/logs/*
+!client/godot/logs/.gitkeep
+docs/evidence/*
+!docs/evidence/.gitkeep

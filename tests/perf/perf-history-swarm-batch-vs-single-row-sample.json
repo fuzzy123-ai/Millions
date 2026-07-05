@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "ledger_id": "local-dev-01__swarm_batch_vs_single_movement_loop_measurement__2026-07-05__local-uncommitted",
+  "date": "2026-07-05",
+  "machine_label": "local-dev-01",
+  "build_id": "local-uncommitted",
+  "source_slice": "GSWARM-11",
+  "scenario_id": "swarm_batch_vs_single_movement_loop_measurement",
+  "scenario_family": "swarm_batch_vs_single",
+  "status": "informational",
+  "budget_result": "blocked",
+  "budget_keys": [
+    "swarm_batch_vs_single_p95_ratio_bps_max",
+    "swarm_batch_movement_loop_p95_us_max",
+    "swarm_single_movement_loop_p95_us_max"
+  ],
+  "metrics": {
+    "server_tick_ms": {"p50": 8500, "p95": 8500, "p99": 8500},
+    "snapshot_bytes": {"p50": null, "p95": null, "p99": null},
+    "bandwidth_kb_s_per_client": {"p50": null, "p95": null, "p99": null},
+    "memory_mb": {"server_start": null, "server_peak": null, "server_end": null},
+    "local_elapsed_us": {
+      "total": null,
+      "spawn_ticks": null,
+      "behavior": null,
+      "movement_preview": null,
+      "movement_tick": 4200000,
+      "configured_movement_tick": 3600000,
+      "configured_movement_loop": 8500,
+      "static_obstacle_movement": null,
+      "snapshot": null,
+      "collision_diagnostics": null
+    }
+  },
+  "source_artifact": "tests/perf/swarm-batch-vs-single-movement-loop-report.json",
+  "why_changed": "swarm batch-vs-single movement loop row emitted with local p95 comparison",
+  "claim_scope": "local_regression_signal",
+  "redaction_status": "pass",
+  "notes": "Sample batch-vs-single row only. Ratio is basis points and local regression evidence, not a batch-faster or formal p95 budget claim."
+}

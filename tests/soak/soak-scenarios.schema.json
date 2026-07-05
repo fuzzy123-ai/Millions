@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "name": "millions_soak_scenario_catalog",
+  "required_fields": [
+    "scenario_id",
+    "status",
+    "class",
+    "duration_minutes",
+    "client_count",
+    "entity_profile",
+    "network_profile",
+    "reconnect_profile",
+    "metrics_required",
+    "budget_keys",
+    "stop_conditions",
+    "claim_scope",
+    "live_go_required"
+  ],
+  "status_values": ["planned", "blocked", "ready_local", "retired"],
+  "class_values": ["safe_offline", "repo_only", "needs_live_go"],
+  "claim_scope_values": [
+    "scenario_definition_only",
+    "local_regression_signal",
+    "soak_evidence",
+    "release_candidate_evidence"
+  ],
+  "required_metric_groups": [
+    "memory_mb",
+    "queue_depth",
+    "connection_count",
+    "dropped_snapshots",
+    "resend_count",
+    "log_event_count",
+    "shutdown_result"
+  ],
+  "privacy": "No secrets, Steam tickets, private account data, provider tokens, raw live provider output, raw unapproved packet dumps, or private machine paths."
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "source_of_truth": "json",
+  "rule": "Planning source-of-truth files must be JSON. Markdown is allowed for architecture, runbooks, and explanatory documentation, but not under docs/plans.",
+  "canonical_plan": "docs/plans/millions-plan.json",
+  "validator": "scripts/validate_plans.ps1",
+  "forbidden_planning_globs": [
+    "docs/plans/*.md",
+    "docs/plans/*.markdown"
+  ],
+  "required_checks": [
+    "all docs/plans files are json",
+    "canonical plan parses as json",
+    "master roadmap entries exist in roadmap suite",
+    "master phase roadmap references exist",
+    "roadmap dependencies exist",
+    "gate references exist",
+    "gate next_safe_slice references exist",
+    "integration dependencies exist",
+    "slice ids are unique"
+  ]
+}

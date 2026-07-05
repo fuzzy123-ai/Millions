@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "slice": "NAV-05",
+  "status": "local_readiness_smoke",
+  "goal": "Prepare the first local many-units navigation readiness test without gameplay authority.",
+  "required_components": [
+    {
+      "id": "rust_movement_scale",
+      "command": "cargo test movement_scale",
+      "expected": "4 passed; 0 failed"
+    },
+    {
+      "id": "rust_mapdata",
+      "command": "cargo test map_data",
+      "expected": "8 passed; 0 failed"
+    },
+    {
+      "id": "godot_mapdata_fixture",
+      "command": "Godot headless res://scripts/tests/map_data_fixture_check.gd",
+      "expected": "map_data_fixture_check status=ok fixtures=1 checksum=sum16:3e03"
+    },
+    {
+      "id": "godot_movement_readability",
+      "command": "Godot headless res://scripts/tests/movement_readability_stress_check.gd",
+      "expected": "movement_readability_stress status=ok proxies=1000 groups=20"
+    },
+    {
+      "id": "plan_foundation",
+      "command": "scripts/validate_plans.ps1 and scripts/check_foundation.ps1",
+      "expected": "Plan validation passed; Foundation check passed"
+    }
+  ],
+  "non_claims": [
+    "not_gameplay_movement",
+    "not_pathfinding_implementation",
+    "not_navigation_authority",
+    "not_final_movement_design",
+    "not_release_candidate",
+    "not_live_network"
+  ]
+}

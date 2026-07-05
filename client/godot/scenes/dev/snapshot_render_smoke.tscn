@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/render/SnapshotRenderSmoke.gd" id="1_snapshot_render_smoke"]
+
+[node name="SnapshotRenderSmoke" type="Node2D"]
+script = ExtResource("1_snapshot_render_smoke")
+
+[node name="RuntimeEntities" type="Node2D" parent="."]
+
+[node name="RenderProxyHost" type="Node2D" parent="RuntimeEntities"]

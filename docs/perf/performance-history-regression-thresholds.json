@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "slice": "PHIST-03",
+  "status": "provisional",
+  "source_ledger_schema": "tests/perf/performance-history-ledger.schema.json",
+  "source_budget": "docs/plans/millions-plan.json performance_budgets",
+  "source_threshold_artifacts": [
+    "tests/perf/sim-scale-regression-thresholds.json",
+    "tests/perf/interest-bandwidth-regression-thresholds.json",
+    "tests/perf/swarm-load-smoke-report.json",
+    "tests/perf/render-stress-smoke-report.json"
+  ],
+  "privacy": "No secrets, Steam tickets, private account data, provider tokens, raw live provider output, raw unapproved packet dumps, or private machine paths.",
+  "comparison_rules": {
+    "identity_fields": ["machine_label", "scenario_id", "scenario_family"],
+    "build_field": "build_id",
+    "date_field": "date",
+    "why_changed_required": true,
+    "missing_metric_result": "blocked",
+    "budget_key_mismatch_result": "blocked",
+    "status_for_contract_only_rows": "informational",
+    "claim_scope_for_local_rows": "local_regression_signal",
+    "swarm_batch_vs_single_promotion_requires_comparable_rows": 3,
+    "release_claim_requires": [
+      "release_candidate_evidence",
+      "soak evidence",
+      "live gate evidence where applicable"
+    ]
+  },
+  "thresholds": [
+    {
+      "scenario_id": "sim_1k_single_client",
+      "scenario_family": "simulation_scale",
+      "claim_scope": "local_regression_signal",
+      "metrics": {
+        "server_tick_ms.p95.max": 10.0,
+        "server_tick_ms.p99.max": 50.0,
+        "memory_mb.server_peak.max": 64.0,
+        "memory_mb.server_end_minus_start.max": 16.0
+      },
+      "budget_keys": ["sim_1k_p95_ms_max", "server_tick_p99_ms_max", "memory_rule"],
+      "source_artifact": "tests/perf/sim-scale-regression-thresholds.json"
+    },
+    {
+      "scenario_id": "sim_5k_single_client",
+      "scenario_family": "simulation_scale",
+      "claim_scope": "local_regression_signal",
+      "metrics": {
+        "server_tick_ms.p95.max": 20.0,
+        "server_tick_ms.p99.max": 50.0,
+        "memory_mb.server_peak.max": 64.0,
+        "memory_mb.server_end_minus_start.max": 16.0
+      },
+      "budget_keys": ["sim_5k_p95_ms_max", "server_tick_p99_ms_max", "memory_rule"],
+      "source_artifact": "tests/perf/sim-scale-regression-thresholds.json"
+    },
+    {
+      "scenario_id": "sim_10k_single_client",
+      "scenario_family": "simulation_scale",
+      "claim_scope": "local_regression_signal",
+      "metrics": {
+        "server_tick_ms.p95.max": 35.0,
+        "server_tick_ms.p99.max": 50.0,
+        "memory_mb.server_peak.max": 64.0,
+        "memory_mb.server_end_minus_start.max": 16.0
+      },
+      "budget_keys": ["sim_10k_p95_ms_max", "server_tick_p99_ms_max", "memory_rule"],
+      "source_artifact": "tests/perf/sim-scale-regression-thresholds.json"
+    },
+    {
+      "scenario_id": "int_aoi_delta_steady_128_visible",
+      "scenario_family": "interest_bandwidth",
+      "claim_scope": "local_regression_signal",
+      "metrics": {
+        "bandwidth_kb_s_per_client.p95.max": 256.0,
+        "snapshot_bytes_per_tick.max": 13107
+      },
+      "budget_keys": ["normal_aoi_bandwidth_kb_s_p95_max"],
+      "source_artifact": "tests/perf/interest-bandwidth-regression-thresholds.json"
+    },
+    {
+      "scenario_id": "int_aoi_delta_churn_256_visible_32_removed",
+      "scenario_family": "interest_bandwidth",
+      "claim_scope": "local_regression_signal",
+      "metrics": {
+        "bandwidth_kb_s_per_client.p95.max": 256.0,
+        "snapshot_bytes_per_tick.max": 13107
+      },
+      "budget_keys": ["normal_aoi_bandwidth_kb_s_p95_max"],
+      "source_artifact": "tests/perf/interest-bandwidth-regression-thresholds.json"
+    },
+    {
+      "scenario_id": "int_aoi_10k_aggregate_far_state",
+      "scenario_family": "interest_bandwidth",
+      "claim_scope": "local_regression_signal",
+      "metrics": {
+        "bandwidth_kb_s_per_client.p95.max": 768.0,
+        "snapshot_bytes_per_tick.max": 39321
+      },
+      "budget_keys": ["stress_10k_bandwidth_kb_s_p95_max"],
+      "source_artifact": "tests/perf/interest-bandwidth-regression-thresholds.json"
+    },
+    {
+      "scenario_id": "swarm_1k_server_behavior_collision_load",
+      "scenario_family": "swarm_collision",
+      "claim_scope": "local_regression_signal",
+      "metrics": {
+        "local_elapsed_us.total.max": 120000000,
+        "local_elapsed_us.movement_tick.max": 20000000,
+        "local_elapsed_us.configured_movement_loop.max": 20000000,
+        "local_elapsed_us.static_obstacle_movement.max": 20000000,
+        "local_elapsed_us.collision_diagnostics.max": 20000000,
+        "snapshot_bytes.p95.max": 39321,
+        "bandwidth_kb_s_per_client.p95.max": 768.0
+      },
+      "budget_keys": [
+        "swarm_local_smoke_elapsed_us_max",
+        "swarm_snapshot_bytes_max",
+        "swarm_bandwidth_kb_s_per_client_max"
+      ],
+      "source_artifact": "tests/perf/swarm-load-smoke-report.json"
+    },
+    {
+      "scenario_id": "swarm_batch_vs_single_movement_loop_measurement",
+      "scenario_family": "swarm_batch_vs_single",
+      "claim_scope": "local_regression_signal",
+      "metrics": {
+        "local_elapsed_us.movement_tick.max": 20000000,
+        "local_elapsed_us.configured_movement_tick.max": 20000000,
+        "local_elapsed_us.configured_movement_loop.max": 12000,
+        "server_tick_ms.p95.max": 12000
+      },
+      "budget_keys": [
+        "swarm_batch_vs_single_p95_ratio_bps_max",
+        "swarm_batch_movement_loop_p95_us_max",
+        "swarm_single_movement_loop_p95_us_max"
+      ],
+      "source_artifact": "tests/perf/swarm-batch-vs-single-movement-loop-report.json",
+      "blocked_until_measured": true
+    },
+    {
+      "scenario_id": "godot_render_1k_visible",
+      "scenario_family": "godot_render",
+      "claim_scope": "informational_contract_only",
+      "metrics": {
+        "decode_ms.p95.max": 2.0,
+        "snapshot_apply_ms.p95.max": 3.0,
+        "render_update_ms.p95.max": 5.0,
+        "frame_ms.p95.max": 16.7
+      },
+      "budget_keys": [
+        "godot_decode_p95_ms_max",
+        "godot_snapshot_apply_p95_ms_max",
+        "godot_render_update_p95_ms_max",
+        "client_frame_p95_ms_max"
+      ],
+      "source_artifact": "tests/perf/render-stress-smoke-report.json",
+      "blocked_until_measured": true
+    }
+  ],
+  "open_limits": [
+    "Godot render thresholds are contract-only until measured p95 frame/render/decode/apply rows exist.",
+    "Simulation, AOI, and swarm/collision thresholds are local Foundation regression guards, not release promises.",
+    "Swarm/collision thresholds compare local smoke-stage elapsed time, snapshot bytes, and estimated local bandwidth only; they do not replace measured server tick p95/p99, memory, soak, live transport, or gameplay physics evidence.",
+    "No soak, live Steam, two-machine networking, final gameplay visibility, final render technology, or release-candidate claim is closed by this file.",
+    "Any budget threshold change still requires a JSON plan update with rationale and the mandatory plan checks."
+  ]
+}

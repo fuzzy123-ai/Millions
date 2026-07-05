@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "export_id": "observability_contract_sample",
+  "created_utc": "2026-07-03T00:00:00Z",
+  "repo_state": "local_uncommitted_foundation",
+  "source_slice": "GOBS-04",
+  "run_id": "contract-sample-only",
+  "artifact_family": "log_schema",
+  "artifact_path": "docs/observability/log-event-schema.md",
+  "redaction_status": "pass",
+  "claim_scope": "informational_contract_only",
+  "checks": [
+    "validate_plans",
+    "check_foundation",
+    "manifest_json_parse"
+  ],
+  "blocked_gates": [
+    "release_claim",
+    "live_steam_claim",
+    "security_claim_without_redaction_audit"
+  ],
+  "notes": "Sample manifest only; not a live evidence export."
+}

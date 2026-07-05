@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "protocol": "protocol_v0",
+  "binary": "protocol_v0_server_hello_accept.bin",
+  "scenario": "server_hello_accept",
+  "expected": "accept",
+  "message_type": 2,
+  "message_name": "server_hello",
+  "header": {
+    "magic": "0x4D4D",
+    "protocol_version": 0,
+    "flags": 0,
+    "header_len": 48,
+    "payload_len": 8,
+    "connection_id": "0x1122334455667788",
+    "session_id": "0x0102030405060708",
+    "client_seq": 0,
+    "server_seq": 1,
+    "ack_seq": 0,
+    "tick": 0
+  },
+  "payload": {
+    "server_tick_hz": 20,
+    "capability_flags": 0,
+    "max_payload_len": 1200
+  },
+  "privacy": "No secrets, Steam tickets, account identifiers, or provider/session tokens."
+}

@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "date": "2026-07-03",
+  "machine_label": "local-dev-01",
+  "build_id": "local-uncommitted",
+  "scenario_id": "server_idle_20hz",
+  "status": "informational",
+  "budget_result": "blocked",
+  "budget_keys": ["server_tick_p99_ms_max"],
+  "metrics": {
+    "server_tick_ms": {"p50": null, "p95": null, "p99": null},
+    "snapshot_bytes": {"p50": null, "p95": null, "p99": null},
+    "bandwidth_kb_s_per_client": {"p50": null, "p95": null, "p99": null},
+    "godot_ms": {
+      "decode_p95": null,
+      "snapshot_apply_p95": null,
+      "render_update_p95": null,
+      "frame_p95": null
+    },
+    "memory_mb": {
+      "server_start": null,
+      "server_peak": null,
+      "server_end": null,
+      "godot_start": null,
+      "godot_peak": null,
+      "godot_end": null
+    },
+    "queue_depth": {"p95": null, "max": null},
+    "reconnect_full_snapshot_s": {"p95": null}
+  },
+  "notes": "Schema sample only. No performance claim is made."
+}

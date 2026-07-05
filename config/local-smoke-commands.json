@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "slice": "OPS-02",
+  "mode": "local_only",
+  "live_network": false,
+  "steam_live": false,
+  "description": "Local server/client smoke command catalog. These commands must not call live Steam, open public endpoints, deploy, or start gameplay.",
+  "commands": [
+    {
+      "id": "server_smoke",
+      "script": "run_server_smoke.ps1",
+      "scope": "server",
+      "enabled": true
+    },
+    {
+      "id": "godot_fixture",
+      "script": "run_godot_fixture_check.ps1",
+      "scope": "client_godot",
+      "enabled": true
+    },
+    {
+      "id": "godot_client_adapter",
+      "script": "run_godot_client_adapter_check.ps1",
+      "scope": "client_godot",
+      "enabled": true
+    },
+    {
+      "id": "godot_snapshot_render",
+      "script": "run_godot_snapshot_render_smoke.ps1",
+      "scope": "client_godot",
+      "enabled": true
+    },
+    {
+      "id": "godot_render_batch",
+      "script": "run_godot_render_batch_check.ps1",
+      "scope": "client_godot",
+      "enabled": true
+    },
+    {
+      "id": "godot_render_stress",
+      "script": "run_godot_render_stress_smoke.ps1",
+      "scope": "client_godot",
+      "enabled": true
+    },
+    {
+      "id": "godot_lobby_facade",
+      "script": "run_godot_lobby_facade_check.ps1",
+      "scope": "client_godot",
+      "enabled": true
+    },
+    {
+      "id": "local_multiclient",
+      "script": "run_local_multiclient_harness.ps1",
+      "scope": "local_harness",
+      "enabled": true
+    }
+  ],
+  "stop_rules": [
+    "Refuse if live_network or steam_live is true.",
+    "Refuse unknown scripts instead of invoking arbitrary paths.",
+    "No live Steam, real AppID, public endpoint, deploy, or gameplay authority."
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "slice": "GSWARM-12",
+  "scenario_id": "swarm_batch_vs_single_movement_loop_measurement",
+  "scenario_family": "swarm_batch_vs_single",
+  "status": "blocked",
+  "decision": "blocked",
+  "budget_result": "blocked",
+  "claim_scope": "local_regression_signal",
+  "reason": "insufficient_comparable_rows",
+  "min_rows_required": 3,
+  "current_comparable_rows": 1,
+  "promotion_policy": {
+    "max_batch_to_single_p95_bps": 12000,
+    "max_single_elapsed_us_p95": 20000000,
+    "max_batch_elapsed_us_p95": 20000000
+  },
+  "required_rust_check": "cargo test swarm_batch_vs_single_promotion",
+  "source_artifacts": [
+    "tests/perf/perf-history-swarm-batch-vs-single-row-sample.json",
+    "tests/perf/swarm-batch-vs-single-movement-loop-report.json",
+    "docs/perf/performance-history-regression-thresholds.json"
+  ],
+  "non_claims": [
+    "not_formal_p95_budget",
+    "not_batch_faster_claim",
+    "not_release_candidate",
+    "not_live_server_tick_measurement",
+    "not_render_frame_measurement",
+    "not_live_bandwidth_measurement",
+    "not_final_horde_pathfinding",
+    "not_unconditional_default_tick_loop_movement"
+  ]
+}

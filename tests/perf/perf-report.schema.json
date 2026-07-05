@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "name": "millions_perf_report_row",
+  "required_fields": [
+    "schema_version",
+    "date",
+    "machine_label",
+    "build_id",
+    "scenario_id",
+    "status",
+    "budget_result",
+    "budget_keys",
+    "metrics"
+  ],
+  "status_values": ["pass", "fail", "blocked", "informational"],
+  "budget_result_values": ["pass", "fail", "blocked"],
+  "metric_groups": {
+    "server_tick_ms": ["p50", "p95", "p99"],
+    "snapshot_bytes": ["p50", "p95", "p99"],
+    "bandwidth_kb_s_per_client": ["p50", "p95", "p99"],
+    "godot_ms": ["decode_p95", "snapshot_apply_p95", "render_update_p95", "frame_p95"],
+    "memory_mb": ["server_start", "server_peak", "server_end", "godot_start", "godot_peak", "godot_end"],
+    "queue_depth": ["p95", "max"],
+    "reconnect_full_snapshot_s": ["p95"]
+  },
+  "privacy": "No secrets, Steam tickets, private account data, provider tokens, raw live provider output, or private machine paths."
+}

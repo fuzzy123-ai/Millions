@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "slice": "GCTRL-03",
+  "scenario_id": "godot_selection_readability_1k_proxy_128_selected",
+  "status": "informational",
+  "budget_result": "blocked",
+  "claim_scope": "informational_contract_only",
+  "entity_proxy_count": 1000,
+  "selection_overlay_count": 128,
+  "feedback_states": [
+    "selection_local",
+    "command_context_ready"
+  ],
+  "required_check": "client/godot/scripts/tests/selection_readability_stress_check.gd",
+  "non_claims": [
+    "not_final_ui",
+    "not_final_render_technology",
+    "not_readability_signoff",
+    "not_gameplay_authority",
+    "not_release_candidate"
+  ]
+}
+

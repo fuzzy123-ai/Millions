@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "slice": "LOADSHED-03",
+  "mode": "local_contract_smoke",
+  "claim_limit": "These cases validate local overload policy contracts only. They do not make live networking, real Steam, gameplay, soak, final transport, or release-candidate overload claims.",
+  "limits": {
+    "max_commands_per_second": 30,
+    "max_pending_reliable_commands": 128,
+    "max_reliable_backlog_packets": 256,
+    "resend_window_ticks": 40,
+    "max_bandwidth_kb_s_per_client": 256,
+    "max_log_events_per_minute": 120,
+    "slow_client_backlog_packets": 64
+  },
+  "cases": [
+    {
+      "id": "overload_command_rate_drop",
+      "description": "A client above the command-rate cap is over limit and new commands are dropped.",
+      "sample": {
+        "commands_per_second": 45,
+        "pending_reliable_commands": 0,
+        "reliable_backlog_packets": 0,
+        "oldest_unacked_ticks": 0,
+        "bandwidth_kb_s": 0,
+        "log_events_per_minute": 0
+      },
+      "expected": {
+        "action": "drop_command",
+        "reasons": ["command_rate"],
+        "snapshot_mode": "normal",
+        "command_admission": "drop_new_commands",
+        "optional_diagnostics_enabled": true,
+        "disconnect": false
+      }
+    },
+    {
+      "id": "overload_bandwidth_degrade",
+      "description": "A bandwidth/backlog pressure case degrades snapshot detail but keeps command admission open.",
+      "sample": {
+        "commands_per_second": 0,
+        "pending_reliable_commands": 0,
+        "reliable_backlog_packets": 64,
+        "oldest_unacked_ticks": 0,
+        "bandwidth_kb_s": 300,
+        "log_events_per_minute": 0
+      },
+      "expected": {
+        "action": "degrade",
+        "reasons": ["bandwidth"],
+        "snapshot_mode": "aggregate_far_state_only",
+        "command_admission": "accept",
+        "optional_diagnostics_enabled": true,
+        "disconnect": false
+      }
+    },
+    {
+      "id": "overload_log_volume_drop_diagnostics",
+      "description": "A client above log-volume limits drops new commands and disables optional diagnostics.",
+      "sample": {
+        "commands_per_second": 0,
+        "pending_reliable_commands": 0,
+        "reliable_backlog_packets": 0,
+        "oldest_unacked_ticks": 0,
+        "bandwidth_kb_s": 0,
+        "log_events_per_minute": 121
+      },
+      "expected": {
+        "action": "drop_command",
+        "reasons": ["log_volume"],
+        "snapshot_mode": "normal",
+        "command_admission": "drop_new_commands",
+        "optional_diagnostics_enabled": false,
+        "disconnect": false
+      }
+    },
+    {
+      "id": "overload_resend_window_disconnect",
+      "description": "A client far beyond resend and backlog limits disconnects and resumes only from a full snapshot.",
+      "sample": {
+        "commands_per_second": 0,
+        "pending_reliable_commands": 0,
+        "reliable_backlog_packets": 257,
+        "oldest_unacked_ticks": 100,
+        "bandwidth_kb_s": 0,
+        "log_events_per_minute": 0
+      },
+      "expected": {
+        "action": "disconnect",
+        "reasons": ["reliable_backlog", "resend_window"],
+        "snapshot_mode": "full_snapshot_only",
+        "command_admission": "drop_new_commands",
+        "optional_diagnostics_enabled": false,
+        "disconnect": true
+      }
+    }
+  ]
+}

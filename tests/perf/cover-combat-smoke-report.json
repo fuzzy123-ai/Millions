@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "slice": "GCOV-04",
+  "scenario_id": "cover_combat_dense_targeting_64x96",
+  "status": "informational",
+  "budget_result": "blocked",
+  "claim_scope": "informational_contract_only",
+  "attacker_count": 64,
+  "target_count": 96,
+  "query_count": 6144,
+  "required_result_buckets": [
+    "in_range_clear",
+    "in_range_target_in_cover",
+    "blocked_by_obstacle",
+    "out_of_range"
+  ],
+  "required_check": "cargo test cover_combat_perf_smoke",
+  "non_claims": [
+    "not_measured_p95",
+    "not_damage",
+    "not_final_cover_bonus",
+    "not_balance",
+    "not_live_networking",
+    "not_release_candidate"
+  ]
+}
+

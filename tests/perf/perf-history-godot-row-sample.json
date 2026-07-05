@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "ledger_id": "local-dev-01__godot_render_1k_visible__2026-07-03__local-uncommitted",
+  "date": "2026-07-03",
+  "machine_label": "local-dev-01",
+  "build_id": "local-uncommitted",
+  "source_slice": "PHIST-02",
+  "scenario_id": "godot_render_1k_visible",
+  "scenario_family": "godot_render",
+  "status": "informational",
+  "budget_result": "blocked",
+  "budget_keys": [
+    "godot_decode_p95_ms_max",
+    "godot_snapshot_apply_p95_ms_max",
+    "godot_render_update_p95_ms_max",
+    "client_frame_p95_ms_max"
+  ],
+  "metrics": {
+    "decode_ms": {"p50": null, "p95": null, "p99": null},
+    "snapshot_apply_ms": {"p50": null, "p95": null, "p99": null},
+    "render_update_ms": {"p50": null, "p95": null, "p99": null},
+    "frame_ms": {"p50": null, "p95": null, "p99": null},
+    "proxy_count": 1000
+  },
+  "source_artifact": "tests/perf/render-stress-smoke-report.json",
+  "why_changed": "godot render contract row emitted without measured frame percentiles",
+  "claim_scope": "informational_contract_only",
+  "redaction_status": "pass",
+  "notes": ""
+}

@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "date": "2026-07-03",
+  "slice": "SIM-03",
+  "machine_label": "local-dev-01",
+  "build_id": "local-uncommitted",
+  "status": "informational",
+  "budget_result": "pass",
+  "sample_count": 7,
+  "measurement_source": "temporary local Cargo runner using the existing server/src/simulation_scale.rs API",
+  "privacy": "No secrets, Steam tickets, private account data, provider tokens, raw live provider output, or private machine paths.",
+  "claim_limit": "Local SIM-03 evidence only. This report does not close soak, bandwidth, release-candidate, gameplay, live Steam, or final ECS claims.",
+  "budget_keys": [
+    "server_tick_p99_ms_max",
+    "sim_1k_p95_ms_max",
+    "sim_5k_p95_ms_max",
+    "sim_10k_p95_ms_max",
+    "memory_rule"
+  ],
+  "scenarios": [
+    {
+      "scenario_id": "sim_1k_single_client",
+      "status": "informational",
+      "budget_result": "pass",
+      "entity_count": 1000,
+      "visible_entities_per_client": 1000,
+      "client_count": 1,
+      "tick_count": 4,
+      "occupied_cells": 272,
+      "metrics": {
+        "server_tick_ms": {"p50": 0.8696, "p95": 1.133525, "p99": 1.133525},
+        "snapshot_bytes": {"p50": 36024, "p95": 36024, "p99": 36024},
+        "bandwidth_kb_s_per_client": {"p50": 0.0, "p95": 0.0, "p99": 0.0},
+        "memory_mb": {"server_start": 3.176, "server_peak": 3.449, "server_end": 3.336}
+      }
+    },
+    {
+      "scenario_id": "sim_5k_single_client",
+      "status": "informational",
+      "budget_result": "pass",
+      "entity_count": 5000,
+      "visible_entities_per_client": 5000,
+      "client_count": 1,
+      "tick_count": 4,
+      "occupied_cells": 1298,
+      "metrics": {
+        "server_tick_ms": {"p50": 4.6518, "p95": 6.57575, "p99": 6.57575},
+        "snapshot_bytes": {"p50": 180024, "p95": 180024, "p99": 180024},
+        "bandwidth_kb_s_per_client": {"p50": 0.0, "p95": 0.0, "p99": 0.0},
+        "memory_mb": {"server_start": 3.176, "server_peak": 4.184, "server_end": 3.609}
+      }
+    },
+    {
+      "scenario_id": "sim_10k_single_client",
+      "status": "informational",
+      "budget_result": "pass",
+      "entity_count": 10000,
+      "visible_entities_per_client": 10000,
+      "client_count": 1,
+      "tick_count": 4,
+      "occupied_cells": 2573,
+      "metrics": {
+        "server_tick_ms": {"p50": 9.7675, "p95": 9.8306, "p99": 9.8306},
+        "snapshot_bytes": {"p50": 360024, "p95": 360024, "p99": 360024},
+        "bandwidth_kb_s_per_client": {"p50": 0.0, "p95": 0.0, "p99": 0.0},
+        "memory_mb": {"server_start": 3.176, "server_peak": 5.188, "server_end": 3.641}
+      }
+    }
+  ]
+}

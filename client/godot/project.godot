@@ -1,0 +1,16 @@
+; Engine configuration file.
+; Minimal placeholder project for the Millions Godot client foundation.
+
+config_version=5
+
+[application]
+
+config/name="Millions"
+run/main_scene="res://scenes/app/app_root.tscn"
+config/features=PackedStringArray("4.3")
+
+[autoload]
+
+Online="*res://scripts/autoload/Online.gd"
+ClientLog="*res://scripts/autoload/ClientLog.gd"
+PerfLedger="*res://scripts/autoload/PerfLedger.gd"

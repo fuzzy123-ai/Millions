@@ -1,0 +1,21 @@
+{
+  "schema": "millions_gcore_local_match_smoke_v0",
+  "slice": "GCORE-02",
+  "runner": "scripts/run_godot_gcore_local_match_smoke.ps1",
+  "expected_final_line": "gcore_local_match_smoke status=ok clients=2 hqs=2 squad_proxies=8 entities=10 render_batches=4 intents=2",
+  "coverage": [
+    "two local abstract clients produce intent-only move dictionaries",
+    "authoritative snapshot shape contains two HQ proxies and eight basic squad proxies",
+    "ClientWorldState stores ten authoritative entities",
+    "RenderAdapter derives four render batches by entity kind and faction"
+  ],
+  "non_claims": [
+    "not live networking",
+    "not Steam validation",
+    "not pathfinding",
+    "not combat",
+    "not economy",
+    "not balance",
+    "not release readiness"
+  ]
+}

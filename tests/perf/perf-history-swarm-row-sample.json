@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "ledger_id": "local-dev-01__swarm_1k_server_behavior_collision_load__2026-07-05__local-uncommitted",
+  "date": "2026-07-05",
+  "machine_label": "local-dev-01",
+  "build_id": "local-uncommitted",
+  "source_slice": "GSWARM-03",
+  "scenario_id": "swarm_1k_server_behavior_collision_load",
+  "scenario_family": "swarm_collision",
+  "status": "informational",
+  "budget_result": "blocked",
+  "budget_keys": [
+    "swarm_local_smoke_elapsed_us_max",
+    "swarm_snapshot_bytes_max",
+    "swarm_bandwidth_kb_s_per_client_max"
+  ],
+  "metrics": {
+    "server_tick_ms": {"p50": null, "p95": null, "p99": null},
+    "snapshot_bytes": {"p50": 36024, "p95": 36024, "p99": 36024},
+    "bandwidth_kb_s_per_client": {"p50": 703.59375, "p95": 703.59375, "p99": 703.59375},
+    "memory_mb": {"server_start": null, "server_peak": null, "server_end": null},
+    "local_elapsed_us": {
+      "total": 1,
+      "spawn_ticks": 1,
+      "behavior": 1,
+      "movement_preview": 1,
+      "movement_tick": 1,
+      "configured_movement_tick": 1,
+      "configured_movement_loop": 1,
+      "static_obstacle_movement": 1,
+      "snapshot": 1,
+      "collision_diagnostics": 1
+    }
+  },
+  "source_artifact": "tests/perf/swarm-load-smoke-report.json",
+  "why_changed": "swarm collision local smoke row emitted with stage elapsed-time counters",
+  "claim_scope": "local_regression_signal",
+  "redaction_status": "pass",
+  "notes": "Sample swarm/collision row only. Local elapsed counters are smoke evidence, not p95 server-tick evidence."
+}

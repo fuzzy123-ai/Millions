@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "mode": "local_synthetic",
+  "cases": [
+    {
+      "id": "duplicate_and_gap_then_reorder",
+      "client_seq_stream": [1, 2, 2, 4, 3, 4],
+      "expected_accepted": [1, 2, 3, 4],
+      "expected_duplicate_or_stale": 1,
+      "expected_gaps": 1,
+      "server_packets": [
+        {"server_seq": 1, "last_sent_tick": 10},
+        {"server_seq": 2, "last_sent_tick": 11},
+        {"server_seq": 3, "last_sent_tick": 12}
+      ],
+      "ack_seq": 2,
+      "now_tick": 18,
+      "resend_after_ticks": 5,
+      "expected_pending_server_seq": [3],
+      "expected_resend_due": [3]
+    },
+    {
+      "id": "drop_until_replay_arrives",
+      "client_seq_stream": [1, 3, 2, 3],
+      "expected_accepted": [1, 2, 3],
+      "expected_duplicate_or_stale": 0,
+      "expected_gaps": 1,
+      "server_packets": [
+        {"server_seq": 10, "last_sent_tick": 100},
+        {"server_seq": 11, "last_sent_tick": 104},
+        {"server_seq": 12, "last_sent_tick": 106}
+      ],
+      "ack_seq": 10,
+      "now_tick": 110,
+      "resend_after_ticks": 5,
+      "expected_pending_server_seq": [11, 12],
+      "expected_resend_due": [11]
+    }
+  ]
+}

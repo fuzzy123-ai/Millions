@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "protocol": "protocol_v0",
+  "binary": "protocol_v0_command_ready_batch_ok.bin",
+  "scenario": "command_ready_batch",
+  "expected": "ok",
+  "message_type": 3,
+  "message_name": "client_command_batch",
+  "header": {
+    "magic": "0x4D4D",
+    "protocol_version": 0,
+    "flags": 0,
+    "header_len": 48,
+    "payload_len": 24,
+    "connection_id": "0x1122334455667788",
+    "session_id": "0x0102030405060708",
+    "client_seq": 1,
+    "server_seq": 0,
+    "ack_seq": 1,
+    "tick": 10
+  },
+  "payload": {
+    "command_count": 1,
+    "commands": [
+      {
+        "command_id": 42,
+        "command_type": 1,
+        "command_name": "ready",
+        "command_len": 0,
+        "target_tick": 10
+      }
+    ]
+  },
+  "privacy": "No secrets, Steam tickets, account identifiers, or provider/session tokens."
+}

@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "slice": "HARDEN-03",
+  "mode": "local_hostile_input_smoke",
+  "claim_limit": "These cases validate local hostile-input handling only. They do not expose a public server, call Steam, execute live networking, validate gameplay payload semantics, or claim release-candidate hardening.",
+  "cases": [
+    {
+      "id": "hostile_truncated_header",
+      "input_family": "truncated_header_range",
+      "expected_action": "reject_no_state_mutation",
+      "expected_reason": "malformed_header",
+      "expected_mutates_state": false,
+      "expected_redacted_diagnostics_only": true
+    },
+    {
+      "id": "hostile_version_probe",
+      "input_family": "unsupported_protocol_version",
+      "expected_action": "reject_no_state_mutation",
+      "expected_reason": "version_mismatch",
+      "expected_mutates_state": false,
+      "expected_redacted_diagnostics_only": true
+    },
+    {
+      "id": "hostile_oversized_packet",
+      "input_family": "oversized_packet_disconnect",
+      "expected_action": "disconnect",
+      "expected_reason": "packet_too_large",
+      "expected_mutates_state": false,
+      "expected_redacted_diagnostics_only": true
+    },
+    {
+      "id": "hostile_command_batch_bloat",
+      "input_family": "oversized_command_batch",
+      "expected_action": "reject_no_state_mutation",
+      "expected_reason": "client_command_batch_too_large",
+      "expected_mutates_state": false,
+      "expected_redacted_diagnostics_only": true
+    },
+    {
+      "id": "hostile_replay_attempt",
+      "input_family": "auth_and_replay_state_table",
+      "expected_action": "ack_duplicate_no_state_mutation",
+      "expected_reason": "replayed_command",
+      "expected_mutates_state": false,
+      "expected_redacted_diagnostics_only": true
+    }
+  ]
+}

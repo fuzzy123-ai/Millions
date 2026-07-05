@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "status": "scenario_catalog_only",
+  "source_doc": "docs/gameplay/faction-scale-scenarios.md",
+  "report_contract": "docs/perf/faction-scale-reporting.md",
+  "scenarios": [
+    {
+      "scenario_id": "gload_stage_a_2p_neutral_zombie_1k",
+      "total_entity_count": 1000,
+      "player_faction_count": 2,
+      "neutral_system_count": 8,
+      "zombie_entity_count": 250,
+      "ai_pressure_group_count": 0,
+      "simulated_extra_faction_count": 0,
+      "visible_entities_per_client": 512,
+      "aggregate_far_state_required": false,
+      "budget_reference": "sim_1k_single_client"
+    },
+    {
+      "scenario_id": "gload_stage_b_ai_pressure_2k",
+      "total_entity_count": 2000,
+      "player_faction_count": 2,
+      "neutral_system_count": 12,
+      "zombie_entity_count": 500,
+      "ai_pressure_group_count": 2,
+      "simulated_extra_faction_count": 0,
+      "visible_entities_per_client": 768,
+      "aggregate_far_state_required": false,
+      "budget_reference": "sim_5k_single_client"
+    },
+    {
+      "scenario_id": "gload_stage_c_4plus_mixed_5k",
+      "total_entity_count": 5000,
+      "player_faction_count": 2,
+      "neutral_system_count": 16,
+      "zombie_entity_count": 900,
+      "ai_pressure_group_count": 0,
+      "simulated_extra_faction_count": 2,
+      "visible_entities_per_client": 1024,
+      "aggregate_far_state_required": true,
+      "budget_reference": "sim_5k_single_client"
+    },
+    {
+      "scenario_id": "gload_stage_d_10k_aoi_lod",
+      "total_entity_count": 10000,
+      "player_faction_count": 2,
+      "neutral_system_count": 24,
+      "zombie_entity_count": 2500,
+      "ai_pressure_group_count": 0,
+      "simulated_extra_faction_count": 4,
+      "visible_entities_per_client": 1500,
+      "aggregate_far_state_required": true,
+      "budget_reference": "sim_10k_single_client"
+    }
+  ],
+  "claim_rule": "Catalog rows are not measured results and do not close G-FACTION-COUNT or any scale claim."
+}

@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "slice": "REND-01",
+  "date": "2026-07-03",
+  "machine_label": "local-dev-01",
+  "build_id": "local-uncommitted",
+  "scenario_id": "godot_render_1k_visible",
+  "status": "informational",
+  "budget_result": "blocked",
+  "render_model": "simple Node2D placeholder proxies",
+  "proxy_count": 1000,
+  "budget_keys": [
+    "godot_render_update_p95_ms_max",
+    "client_frame_p95_ms_max"
+  ],
+  "metrics": {
+    "godot_ms": {
+      "decode_p95": null,
+      "snapshot_apply_p95": null,
+      "render_update_p95": null,
+      "frame_p95": null
+    },
+    "memory_mb": {
+      "godot_start": null,
+      "godot_peak": null,
+      "godot_end": null
+    }
+  },
+  "checks": [
+    "Godot headless render_stress_smoke_check creates 1000 proxies and validates bounds"
+  ],
+  "latest_headless_check": {
+    "tool": "Godot 4.7.stable",
+    "command": "Godot console --headless --path client/godot --script res://scripts/tests/render_stress_smoke_check.gd",
+    "result": "render_stress_smoke status=ok proxies=1000 elapsed_us=10177"
+  },
+  "claim_limit": "Render-only stress smoke for infrastructure. It does not choose final render technology, validate framerate, measure GPU time, use gameplay entities, or close release performance gates."
+}

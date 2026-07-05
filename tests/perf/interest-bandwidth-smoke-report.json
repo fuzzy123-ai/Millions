@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "date": "2026-07-03",
+  "slice": "INT-03",
+  "machine_label": "local-dev-01",
+  "build_id": "local-uncommitted",
+  "status": "informational",
+  "budget_result": "pass",
+  "measurement_source": "deterministic byte estimates from protocol_v0 snapshot record sizes and INT-02 aggregate far-state model",
+  "sample_count": 1,
+  "tick_rate_hz": 20,
+  "claim_limit": "Local regression smoke only. This report does not close live networking, AOI bandwidth, soak, release-candidate, gameplay, or Steam claims.",
+  "privacy": "No secrets, Steam tickets, private account data, provider tokens, raw live provider output, or private machine paths.",
+  "byte_model": {
+    "snapshot_header_bytes": 24,
+    "entity_record_bytes": 36,
+    "removed_entity_bytes": 8,
+    "aggregate_far_cell_estimate_bytes": 32
+  },
+  "budget_keys": [
+    "normal_aoi_bandwidth_kb_s_p95_max",
+    "stress_10k_bandwidth_kb_s_p95_max"
+  ],
+  "scenarios": [
+    {
+      "scenario_id": "int_aoi_delta_steady_128_visible",
+      "status": "informational",
+      "budget_result": "pass",
+      "entity_count": 128,
+      "visible_entities_per_client": 128,
+      "client_count": 1,
+      "snapshot_hz": 20,
+      "visible_entity_records": 128,
+      "removed_entity_records": 0,
+      "aggregate_far_cells": 0,
+      "snapshot_bytes_per_tick": 4632,
+      "bandwidth_kb_s_per_client": {"p50": 90.46875, "p95": 90.46875, "p99": 90.46875},
+      "budget_key": "normal_aoi_bandwidth_kb_s_p95_max",
+      "budget_kb_s_p95_max": 256
+    },
+    {
+      "scenario_id": "int_aoi_delta_churn_256_visible_32_removed",
+      "status": "informational",
+      "budget_result": "pass",
+      "entity_count": 288,
+      "visible_entities_per_client": 256,
+      "client_count": 1,
+      "snapshot_hz": 20,
+      "visible_entity_records": 256,
+      "removed_entity_records": 32,
+      "aggregate_far_cells": 0,
+      "snapshot_bytes_per_tick": 9496,
+      "bandwidth_kb_s_per_client": {"p50": 185.46875, "p95": 185.46875, "p99": 185.46875},
+      "budget_key": "normal_aoi_bandwidth_kb_s_p95_max",
+      "budget_kb_s_p95_max": 256
+    },
+    {
+      "scenario_id": "int_aoi_10k_aggregate_far_state",
+      "status": "informational",
+      "budget_result": "pass",
+      "entity_count": 10000,
+      "visible_entities_per_client": 512,
+      "client_count": 1,
+      "snapshot_hz": 20,
+      "visible_entity_records": 512,
+      "removed_entity_records": 0,
+      "aggregate_far_cells": 200,
+      "snapshot_bytes_per_tick": 24856,
+      "bandwidth_kb_s_per_client": {"p50": 485.46875, "p95": 485.46875, "p99": 485.46875},
+      "budget_key": "stress_10k_bandwidth_kb_s_p95_max",
+      "budget_kb_s_p95_max": 768
+    }
+  ]
+}

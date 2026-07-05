@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "status": "slice DET-03 golden checksum fixture",
+  "seed_inputs": {
+    "match_id": 1,
+    "map_checksum": 2,
+    "protocol_version": 0
+  },
+  "simulation_seed": "17076032784302033091",
+  "frames": [
+    {
+      "tick": 20,
+      "inputs": [
+        {
+          "player_session_id": 1,
+          "command_id": 1,
+          "command_type": 1,
+          "target_tick": 21,
+          "payload_hash": 100
+        }
+      ],
+      "checksum": "2337041478003850471"
+    },
+    {
+      "tick": 20,
+      "variant": "payload_hash_changed",
+      "inputs": [
+        {
+          "player_session_id": 1,
+          "command_id": 1,
+          "command_type": 1,
+          "target_tick": 21,
+          "payload_hash": 101
+        }
+      ],
+      "checksum": "104726071036261062"
+    }
+  ],
+  "privacy": "No secrets, Steam tickets, account identifiers, provider tokens, or private paths."
+}

@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "slice": "NAV-02",
+  "status": "scenario_definition_only",
+  "map_checksum": "sum16:3e03",
+  "non_claims": [
+    "not_gameplay_movement",
+    "not_pathfinding_implementation",
+    "not_balance",
+    "not_release_candidate"
+  ],
+  "scenarios": [
+    {
+      "id": "nav_shared_target_1k_direct",
+      "option_family": "direct_target_steering",
+      "entity_count": 1000,
+      "tick_count": 8,
+      "group_count": 1,
+      "blocker_cell_count": 0
+    },
+    {
+      "id": "nav_many_groups_5k_corridor",
+      "option_family": "grid_corridor_pathing",
+      "entity_count": 5000,
+      "tick_count": 8,
+      "group_count": 25,
+      "blocker_cell_count": 16
+    },
+    {
+      "id": "nav_shared_objective_10k_flow_field",
+      "option_family": "flow_field_objective",
+      "entity_count": 10000,
+      "tick_count": 8,
+      "group_count": 4,
+      "blocker_cell_count": 32,
+      "flow_field_build_count_min": 1,
+      "flow_field_cache_request_count_min": 8,
+      "flow_field_cache_hit_count_min": 7,
+      "flow_field_cache_eviction_count_max": 0,
+      "flow_field_cache_entry_count_max": 64,
+      "flow_field_query_count_min": 80000,
+      "flow_field_collision_admission_check_count_min": 128,
+      "flow_field_collision_admission_accepted_count_min": 1,
+      "flow_field_collision_admission_rejected_count_min": 1,
+      "flow_field_collision_resolved_admission_check_count_min": 128,
+      "flow_field_collision_resolved_admission_rejected_count_min": 1,
+      "flow_field_collision_resolved_admission_iterations_run_count_min": 1,
+      "flow_field_collision_resolved_admission_correction_count_min": 1,
+      "flow_field_collision_resolved_admission_correction_abs_mm_total_min": 1,
+      "flow_field_collision_resolved_admission_max_correction_abs_mm_min": 1,
+      "flow_field_collision_movement_probe_count_min": 128,
+      "flow_field_collision_movement_probe_blocked_count_min": 1,
+      "flow_field_collision_movement_applied_delta_count_min": 1,
+      "flow_field_collision_movement_blocked_delta_count_min": 1,
+      "flow_field_collision_apply_physics_candidate_count_min": 1,
+      "flow_field_collision_apply_physics_initial_contact_count_min": 1,
+      "flow_field_collision_apply_physics_iterations_run_count_min": 1,
+      "flow_field_collision_apply_physics_correction_count_min": 1,
+      "flow_field_collision_apply_physics_correction_abs_mm_total_min": 1,
+      "flow_field_collision_apply_physics_max_correction_abs_mm_min": 1,
+      "flow_field_collision_apply_physics_synced_position_count_min": 1,
+      "flow_field_static_obstacle_body_count_min": 32,
+      "flow_field_visited_cell_count_min": 1,
+      "flow_field_unreachable_count_max": 0
+    },
+    {
+      "id": "nav_choke_5k_avoidance",
+      "option_family": "local_avoidance_layer",
+      "entity_count": 5000,
+      "tick_count": 8,
+      "group_count": 10,
+      "blocker_cell_count": 24
+    },
+    {
+      "id": "nav_formation_1k_anchor",
+      "option_family": "formation_anchor",
+      "entity_count": 1000,
+      "tick_count": 8,
+      "group_count": 20,
+      "blocker_cell_count": 8
+    }
+  ]
+}

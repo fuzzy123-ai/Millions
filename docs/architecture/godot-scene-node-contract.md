@@ -2,6 +2,7 @@
 
 Date: 2026-07-02
 Applies to: `client/godot/`
+Status: slice GSCENE-01 foundation contract
 
 ## Prime Rule
 
@@ -14,6 +15,10 @@ references, Resources, signals, or groups.
 
 When Godot MCP/editor tools are available, prefer them for creating, inspecting,
 and validating scenes instead of manually writing `.tscn` files.
+
+This contract is subordinate to `docs/architecture/authority-boundaries.md`:
+Godot owns presentation, input collection, local prediction feedback, UI, and
+debug overlays. The server owns durable match authority.
 
 ## Folder Layout
 
@@ -299,3 +304,6 @@ Before a Godot slice starts:
 - logs/debug overlay fields are named,
 - tests/checks are named.
 
+The per-slice runbook checklist lives in
+`docs/runbooks/godot-slice-scene-checklist.md` and must be used for future
+Godot-facing slices.

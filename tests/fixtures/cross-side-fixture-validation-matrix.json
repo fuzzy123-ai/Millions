@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "slice": "PROTO-03",
+  "mode": "local_cross_side_fixture_plan",
+  "claim_limit": "This matrix defines local Rust/Godot fixture parity expectations only. It does not execute live networking, call Steam, validate gameplay payload semantics, choose final transport, or claim release-candidate evidence.",
+  "required_checks": {
+    "rust": "cargo test protocol_v0",
+    "godot": "powershell -ExecutionPolicy Bypass -File scripts\\run_godot_fixture_check.ps1",
+    "plan": "powershell -ExecutionPolicy Bypass -File scripts\\validate_plans.ps1"
+  },
+  "fixtures": [
+    {
+      "id": "protocol_v0_server_hello_accept",
+      "binary": "protocol/fixtures/protocol_v0_server_hello_accept.bin",
+      "descriptor": "protocol/fixtures/protocol_v0_server_hello_accept.json",
+      "message_type": "server_hello",
+      "rust_expectations": [
+        "message_type",
+        "payload_len",
+        "connection_id",
+        "session_id",
+        "server_seq",
+        "ack_seq",
+        "tick",
+        "server_tick_hz"
+      ],
+      "godot_expectations": [
+        "message_type",
+        "payload_len",
+        "connection_id",
+        "session_id",
+        "server_seq",
+        "ack_seq",
+        "tick",
+        "server_tick_hz"
+      ],
+      "privacy": {
+        "contains_secrets": false,
+        "contains_steam_ticket": false,
+        "contains_private_account_data": false,
+        "contains_real_app_id": false
+      }
+    },
+    {
+      "id": "protocol_v0_command_ready_batch_ok",
+      "binary": "protocol/fixtures/protocol_v0_command_ready_batch_ok.bin",
+      "descriptor": "protocol/fixtures/protocol_v0_command_ready_batch_ok.json",
+      "message_type": "client_command_batch",
+      "rust_expectations": [
+        "message_type",
+        "payload_len",
+        "connection_id",
+        "session_id",
+        "client_seq",
+        "ack_seq",
+        "tick",
+        "command_count",
+        "command_id",
+        "target_tick"
+      ],
+      "godot_expectations": [
+        "message_type",
+        "payload_len",
+        "connection_id",
+        "session_id",
+        "client_seq",
+        "ack_seq",
+        "tick",
+        "command_count",
+        "command_id",
+        "target_tick"
+      ],
+      "privacy": {
+        "contains_secrets": false,
+        "contains_steam_ticket": false,
+        "contains_private_account_data": false,
+        "contains_real_app_id": false
+      }
+    },
+    {
+      "id": "protocol_v0_snapshot_full_minimal_ok",
+      "binary": "protocol/fixtures/protocol_v0_snapshot_full_minimal_ok.bin",
+      "descriptor": "protocol/fixtures/protocol_v0_snapshot_full_minimal_ok.json",
+      "message_type": "server_full_snapshot",
+      "rust_expectations": [
+        "message_type",
+        "payload_len",
+        "connection_id",
+        "session_id",
+        "server_seq",
+        "ack_seq",
+        "tick",
+        "snapshot_id",
+        "baseline_snapshot_id",
+        "entity_count",
+        "first_entity_id"
+      ],
+      "godot_expectations": [
+        "message_type",
+        "payload_len",
+        "connection_id",
+        "session_id",
+        "server_seq",
+        "ack_seq",
+        "tick",
+        "snapshot_id",
+        "baseline_snapshot_id",
+        "entity_count",
+        "first_entity_id"
+      ],
+      "privacy": {
+        "contains_secrets": false,
+        "contains_steam_ticket": false,
+        "contains_private_account_data": false,
+        "contains_real_app_id": false
+      }
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "slice": "INT-03",
+  "status": "provisional",
+  "source_budget": "docs/plans/millions-plan.json performance_budgets",
+  "source_report": "tests/perf/interest-bandwidth-smoke-report.json",
+  "privacy": "No secrets, Steam tickets, private account data, provider tokens, raw live provider output, or private machine paths.",
+  "claim_rule": "A scenario is a bandwidth regression if bandwidth_kb_s_per_client.p95 exceeds the selected budget key. These are local Foundation gates, not live networking or release promises.",
+  "tick_rate_hz": 20,
+  "thresholds": [
+    {
+      "scenario_id": "int_aoi_delta_steady_128_visible",
+      "bandwidth_kb_s_p95_observed": 90.46875,
+      "bandwidth_kb_s_p95_regression_max": 256,
+      "bytes_per_tick_observed": 4632,
+      "bytes_per_tick_regression_max": 13107,
+      "budget_keys": ["normal_aoi_bandwidth_kb_s_p95_max"]
+    },
+    {
+      "scenario_id": "int_aoi_delta_churn_256_visible_32_removed",
+      "bandwidth_kb_s_p95_observed": 185.46875,
+      "bandwidth_kb_s_p95_regression_max": 256,
+      "bytes_per_tick_observed": 9496,
+      "bytes_per_tick_regression_max": 13107,
+      "budget_keys": ["normal_aoi_bandwidth_kb_s_p95_max"]
+    },
+    {
+      "scenario_id": "int_aoi_10k_aggregate_far_state",
+      "bandwidth_kb_s_p95_observed": 485.46875,
+      "bandwidth_kb_s_p95_regression_max": 768,
+      "bytes_per_tick_observed": 24856,
+      "bytes_per_tick_regression_max": 39321,
+      "budget_keys": ["stress_10k_bandwidth_kb_s_p95_max"]
+    }
+  ],
+  "open_limits": [
+    "No live network transport was measured.",
+    "No packet loss, resend, compression, fragmentation, or MTU behavior is included.",
+    "Aggregate far-state is still an estimated server-side model and has no binary wire fixture.",
+    "No gameplay visibility, fog-of-war, stealth, camera authority, or real Steam state is included."
+  ]
+}

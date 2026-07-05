@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "slice": "SOAK-01",
+  "status": "scenario_definition_only",
+  "privacy": "No secrets, Steam tickets, private account data, provider tokens, raw live provider output, raw unapproved packet dumps, or private machine paths.",
+  "claim_limit": "These scenarios define soak inputs and expected evidence. They do not execute a soak run or close stability, scale, live Steam, gameplay, or release-candidate claims.",
+  "scenarios": [
+    {
+      "scenario_id": "soak_15m_foundation_local",
+      "status": "planned",
+      "class": "safe_offline",
+      "duration_minutes": 15,
+      "client_count": 2,
+      "entity_profile": {
+        "source_scenario": "sim_1k_single_client",
+        "entity_count": 1000,
+        "gameplay": "abstract movement stubs only"
+      },
+      "network_profile": {
+        "transport": "local_mock",
+        "loss_percent": 0,
+        "jitter_ms": 0,
+        "live_steam": false
+      },
+      "reconnect_profile": {
+        "restart_client_count": 1,
+        "restart_interval_minutes": 5,
+        "expected_resume": "delta_or_full_snapshot"
+      },
+      "metrics_required": [
+        "memory_mb",
+        "queue_depth",
+        "connection_count",
+        "dropped_snapshots",
+        "resend_count",
+        "log_event_count",
+        "shutdown_result"
+      ],
+      "budget_keys": ["memory_rule", "server_tick_p99_ms_max"],
+      "stop_conditions": [
+        "memory_end_minus_start_mb exceeds 16",
+        "server_peak_mb exceeds 64",
+        "unbounded queue growth",
+        "unhandled reconnect failure",
+        "unclean shutdown"
+      ],
+      "claim_scope": "scenario_definition_only",
+      "live_go_required": false
+    },
+    {
+      "scenario_id": "soak_60m_baseline",
+      "status": "planned",
+      "class": "safe_offline",
+      "duration_minutes": 60,
+      "client_count": 2,
+      "entity_profile": {
+        "source_scenario": "sim_5k_single_client",
+        "entity_count": 5000,
+        "gameplay": "abstract movement stubs only"
+      },
+      "network_profile": {
+        "transport": "local_loopback_or_mock",
+        "loss_percent": 0,
+        "jitter_ms": 0,
+        "live_steam": false
+      },
+      "reconnect_profile": {
+        "restart_client_count": 2,
+        "restart_interval_minutes": 15,
+        "expected_resume": "delta_or_full_snapshot"
+      },
+      "metrics_required": [
+        "memory_mb",
+        "queue_depth",
+        "connection_count",
+        "dropped_snapshots",
+        "resend_count",
+        "log_event_count",
+        "shutdown_result"
+      ],
+      "budget_keys": ["memory_rule", "server_tick_p99_ms_max", "normal_aoi_bandwidth_kb_s_p95_max"],
+      "stop_conditions": [
+        "memory_end_minus_start_mb exceeds 16",
+        "server_peak_mb exceeds 64",
+        "unbounded queue growth",
+        "dropped snapshot count trends upward without recovery",
+        "unclean shutdown"
+      ],
+      "claim_scope": "scenario_definition_only",
+      "live_go_required": false
+    },
+    {
+      "scenario_id": "soak_120m_loss_jitter_reconnect",
+      "status": "blocked",
+      "class": "safe_offline",
+      "duration_minutes": 120,
+      "client_count": 4,
+      "entity_profile": {
+        "source_scenario": "sim_10k_single_client",
+        "entity_count": 10000,
+        "gameplay": "abstract movement stubs only"
+      },
+      "network_profile": {
+        "transport": "simulated_loss_jitter",
+        "loss_percent": 5,
+        "jitter_ms": 120,
+        "live_steam": false
+      },
+      "reconnect_profile": {
+        "restart_client_count": 4,
+        "restart_interval_minutes": 20,
+        "expected_resume": "full_snapshot_or_delta_resume"
+      },
+      "metrics_required": [
+        "memory_mb",
+        "queue_depth",
+        "connection_count",
+        "dropped_snapshots",
+        "resend_count",
+        "log_event_count",
+        "shutdown_result"
+      ],
+      "budget_keys": [
+        "memory_rule",
+        "server_tick_p99_ms_max",
+        "stress_10k_bandwidth_kb_s_p95_max",
+        "reconnect_full_snapshot_p95_s_max"
+      ],
+      "stop_conditions": [
+        "memory_end_minus_start_mb exceeds 16",
+        "unbounded resend backlog",
+        "session rebind fails without planned full snapshot fallback",
+        "command idempotency failure",
+        "unclean shutdown"
+      ],
+      "claim_scope": "scenario_definition_only",
+      "live_go_required": false
+    },
+    {
+      "scenario_id": "soak_live_two_machine_60m",
+      "status": "blocked",
+      "class": "needs_live_go",
+      "duration_minutes": 60,
+      "client_count": 2,
+      "entity_profile": {
+        "source_scenario": "soak_60m_baseline",
+        "entity_count": 5000,
+        "gameplay": "abstract until gameplay scope gate is opened"
+      },
+      "network_profile": {
+        "transport": "live_two_machine",
+        "loss_percent": null,
+        "jitter_ms": null,
+        "live_steam": true
+      },
+      "reconnect_profile": {
+        "restart_client_count": 1,
+        "restart_interval_minutes": 30,
+        "expected_resume": "operator-approved_live_reconnect"
+      },
+      "metrics_required": [
+        "memory_mb",
+        "queue_depth",
+        "connection_count",
+        "dropped_snapshots",
+        "resend_count",
+        "log_event_count",
+        "shutdown_result"
+      ],
+      "budget_keys": [
+        "memory_rule",
+        "server_tick_p99_ms_max",
+        "normal_aoi_bandwidth_kb_s_p95_max",
+        "reconnect_full_snapshot_p95_s_max"
+      ],
+      "stop_conditions": [
+        "missing explicit fresh operator Go",
+        "Steam credentials or tickets would be persisted",
+        "public network mutation is not bounded",
+        "unclean shutdown"
+      ],
+      "claim_scope": "scenario_definition_only",
+      "live_go_required": true
+    }
+  ]
+}

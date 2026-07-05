@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "slice": "COLLISION-PHYSICS-SMOKE",
+  "status": "informational",
+  "budget_result": "blocked",
+  "claim_scope": "local_smoke_only",
+  "scenarios": [
+    {
+      "scenario_id": "collision_clustered_swarm_1k",
+      "body_count": 1000,
+      "cluster_count": 50,
+      "cell_size_mm": 2000,
+      "radius_mm": 350,
+      "max_iterations": 2,
+      "resolved_admission_check_count": 4,
+      "resolved_admission_accepted_after_resolution_count_min": 1,
+      "resolved_admission_rejected_count_min": 1,
+      "static_obstacle_resolution_check_count": 1,
+      "static_obstacle_correction_count_min": 1,
+      "clamped_resolution_check_count": 1,
+      "clamped_correction_limit_abs_mm": 50,
+      "clamped_correction_count_min": 1,
+      "clamped_max_applied_correction_abs_mm_max": 50,
+      "initial_contact_count_min": 1000,
+      "iterations_run_min": 1,
+      "applied_correction_count_min": 1,
+      "applied_correction_abs_mm_total_min": 1,
+      "max_applied_correction_abs_mm_min": 1
+    },
+    {
+      "scenario_id": "collision_clustered_swarm_5k",
+      "body_count": 5000,
+      "cluster_count": 250,
+      "cell_size_mm": 2000,
+      "radius_mm": 350,
+      "max_iterations": 2,
+      "resolved_admission_check_count": 4,
+      "resolved_admission_accepted_after_resolution_count_min": 1,
+      "resolved_admission_rejected_count_min": 1,
+      "static_obstacle_resolution_check_count": 1,
+      "static_obstacle_correction_count_min": 1,
+      "clamped_resolution_check_count": 1,
+      "clamped_correction_limit_abs_mm": 50,
+      "clamped_correction_count_min": 1,
+      "clamped_max_applied_correction_abs_mm_max": 50,
+      "initial_contact_count_min": 5000,
+      "iterations_run_min": 1,
+      "applied_correction_count_min": 1,
+      "applied_correction_abs_mm_total_min": 1,
+      "max_applied_correction_abs_mm_min": 1
+    }
+  ],
+  "required_rust_check": "cargo test collision_perf_smoke",
+  "non_claims": [
+    "no measured p95 or p99 server tick budget",
+    "no gameplay-authoritative movement integration",
+    "no Godot physics or render frame evidence",
+    "no live network bandwidth evidence",
+    "no release readiness claim"
+  ]
+}

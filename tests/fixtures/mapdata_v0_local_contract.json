@@ -1,0 +1,66 @@
+{
+  "schema": "millions_mapdata_v0",
+  "map_id": "local-dev-map",
+  "map_version": 1,
+  "checksum": "sum16:fixture-sidecar",
+  "bounds_mm": {
+    "min_x": 0,
+    "min_y": 0,
+    "max_x": 100000,
+    "max_y": 100000
+  },
+  "spawn_points": [
+    {
+      "id": "spawn_a",
+      "x_mm": 10000,
+      "y_mm": 10000,
+      "faction_label": "local_a"
+    }
+  ],
+  "capture_points": [
+    {
+      "id": "cap_center",
+      "x_mm": 50000,
+      "y_mm": 50000,
+      "radius_mm": 5000
+    }
+  ],
+  "obstacles": [
+    {
+      "id": "obstacle_1",
+      "kind": "obstacle",
+      "x_mm": 20000,
+      "y_mm": 20000,
+      "half_x_mm": 1000,
+      "half_y_mm": 1500,
+      "class_label": "blocker"
+    }
+  ],
+  "cover_objects": [
+    {
+      "id": "cover_1",
+      "kind": "cover",
+      "x_mm": 30000,
+      "y_mm": 30000,
+      "half_x_mm": 800,
+      "half_y_mm": 400,
+      "class_label": "low_cover"
+    }
+  ],
+  "navigation_hints": [
+    {
+      "id": "nav_hint_1",
+      "kind": "navigation_hint",
+      "x_mm": 40000,
+      "y_mm": 40000,
+      "half_x_mm": 2000,
+      "half_y_mm": 2000,
+      "class_label": "blocked_cell_hint"
+    }
+  ],
+  "non_claims": [
+    "not_gameplay_authority",
+    "not_live",
+    "not_release_candidate"
+  ]
+}

@@ -1,0 +1,20 @@
+name: Foundation Matrix
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  foundation-ci:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - name: Foundation matrix without Godot
+        shell: powershell
+        run: powershell -ExecutionPolicy Bypass -File scripts\run_foundation_matrix.ps1 -SkipGodot

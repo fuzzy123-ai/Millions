@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "protocol": "protocol_v0",
+  "binary": "protocol_v0_snapshot_full_minimal_ok.bin",
+  "scenario": "snapshot_full_minimal",
+  "expected": "ok",
+  "message_type": 5,
+  "message_name": "server_full_snapshot",
+  "header": {
+    "magic": "0x4D4D",
+    "protocol_version": 0,
+    "flags": 0,
+    "header_len": 48,
+    "payload_len": 60,
+    "connection_id": "0x1122334455667788",
+    "session_id": "0x0102030405060708",
+    "client_seq": 0,
+    "server_seq": 2,
+    "ack_seq": 1,
+    "tick": 20
+  },
+  "payload": {
+    "snapshot_id": 100,
+    "baseline_snapshot_id": 0,
+    "entity_count": 1,
+    "removed_count": 0,
+    "entities": [
+      {
+        "entity_id": 1,
+        "entity_kind": 1,
+        "faction_id": 1,
+        "flags": 1,
+        "x_mm": 1000,
+        "y_mm": -2000,
+        "facing_millirad": 1571,
+        "health_q8": 256,
+        "state_id": 1,
+        "state_param_q8": 0
+      }
+    ]
+  },
+  "privacy": "No secrets, Steam tickets, account identifiers, or provider/session tokens."
+}

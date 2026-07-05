@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "slice": "SIM-02",
+  "scope": "simulation_only",
+  "claim": "scenario_definition_only",
+  "privacy": "No secrets, Steam tickets, private account data, provider tokens, raw live provider output, or private machine paths.",
+  "scenarios": [
+    {
+      "scenario_id": "sim_1k_single_client",
+      "entity_count": 1000,
+      "tick_count": 4,
+      "cell_size_mm": 2000,
+      "world_width_entities": 50,
+      "budget_scenario": "Sim1kSingleClient"
+    },
+    {
+      "scenario_id": "sim_5k_single_client",
+      "entity_count": 5000,
+      "tick_count": 4,
+      "cell_size_mm": 2000,
+      "world_width_entities": 100,
+      "budget_scenario": "Sim5kSingleClient"
+    },
+    {
+      "scenario_id": "sim_10k_single_client",
+      "entity_count": 10000,
+      "tick_count": 4,
+      "cell_size_mm": 2000,
+      "world_width_entities": 100,
+      "budget_scenario": "Sim10kSingleClient"
+    }
+  ],
+  "non_goals": [
+    "wall-clock performance claim",
+    "gameplay behavior",
+    "pathfinding",
+    "combat",
+    "economy",
+    "AI",
+    "long-term ECS crate choice"
+  ]
+}

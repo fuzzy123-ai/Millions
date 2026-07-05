@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "schema": "steam_bridge_v0",
+  "scenario": "local_mock_steam_bridge_handoff",
+  "identity_mode": "local_mock",
+  "lobby_id": "local-abc123",
+  "lobby_state": "ready",
+  "protocol": "protocol_v0",
+  "server_mode": "local_direct",
+  "server_endpoint": "127.0.0.1:7777",
+  "endpoint_epoch": 1,
+  "ready_epoch": 1,
+  "build_id": "local-uncommitted",
+  "player_display_name": "Player 1",
+  "player_session_id": "local-session-local-abc123-player-1",
+  "privacy": "Local/mock fixture only. No Steam auth tickets, real AppID, private account data, provider tokens, or live session output."
+}

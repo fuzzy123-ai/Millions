@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "slice": "MAPDATA-03",
+  "fixture": "tests/fixtures/mapdata_v0_local_contract.json",
+  "algorithm": "sum16_bytes",
+  "expected_checksum": "sum16:3e03",
+  "claim_limit": "Local fixture parity checksum only; not a cryptographic hash, gameplay authority, live export proof, or release-candidate artifact."
+}

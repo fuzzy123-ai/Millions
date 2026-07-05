@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "name": "millions_performance_history_ledger_row",
+  "required_fields": [
+    "schema_version",
+    "ledger_id",
+    "date",
+    "machine_label",
+    "build_id",
+    "source_slice",
+    "scenario_id",
+    "scenario_family",
+    "status",
+    "budget_result",
+    "budget_keys",
+    "metrics",
+    "source_artifact",
+    "why_changed",
+    "claim_scope",
+    "redaction_status",
+    "notes"
+  ],
+  "scenario_family_values": [
+    "server_tick",
+    "protocol_fixture",
+    "simulation_scale",
+    "swarm_collision",
+    "swarm_batch_vs_single",
+    "interest_bandwidth",
+    "godot_render",
+    "local_multiclient",
+    "reconnect",
+    "loss_jitter",
+    "soak",
+    "faction_scale"
+  ],
+  "status_values": ["pass", "fail", "blocked", "informational"],
+  "budget_result_values": ["pass", "fail", "blocked"],
+  "redaction_status_values": ["pass", "fail", "blocked"],
+  "ledger_id_rule": "{machine_label}__{scenario_id}__{date}__{build_id}",
+  "privacy": "No secrets, Steam tickets, private account data, provider tokens, raw live provider output, raw unapproved packet dumps, or private machine paths."
+}
